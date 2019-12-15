@@ -81,9 +81,6 @@ begin
 		Text_IO.Put_Line("Please retry program and select a valid option.");
 		return 1;
 	end if;
-	Text_IO.Put_Line(To_String(Input_File_Name));
-	--Text_IO.Put_Line("Which day to run? ");
-	--Day_To_Run := Unbounded_IO.Get_Line;
 	Procedure_To_Run.all(To_String(Input_File_Name));
 	return 0;
 end;
