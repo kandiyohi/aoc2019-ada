@@ -42,28 +42,31 @@ use Fuel_Mass;
 -- What is the sum of the fuel requirements for all of the modules on your
 -- spacecraft?
 
-procedure Day_1 is
-	Input_File : File_Type;
-	Mass : Integer;
-	Mass_Needed : Integer := 0;
-	Additional_Mass_Needed : Integer := 0;
-	Intermediate_Mass : Integer := 0;
-	Total_Mass_Needed : Integer := 0;
-	package Int_IO is new Integer_IO(Integer); use Int_IO;
-begin
-	Put_Line("CalculateFuelMass v2");
-	Open(Input_File, In_File, "day_1.txt");
-	while not End_Of_File(Input_File) loop
-		Int_IO.Get(Input_File, Mass);
-		Intermediate_Mass := Calculate_Fuel_Mass(Mass);
-		Mass_Needed := Mass_Needed + Intermediate_Mass;
-		Additional_Mass_Needed := Additional_Mass_Needed + Calculate_Fuel_Mass_Recursive(Intermediate_Mass);
-	end loop;
-	Put("Mass needed:");
-	Put_Line(Integer'Image(Mass_Needed));
-	Put("Additional mass needed:");
-	Put_Line(Integer'Image(Additional_Mass_Needed));
-	Total_Mass_Needed := Mass_Needed + Additional_Mass_Needed;
-	Put("Total mass needed:");
-	Put_Line(Integer'Image(Total_Mass_Needed));
-end;
+package body Day_1 is
+
+	procedure Day_1 is
+		Input_File : File_Type;
+		Mass : Integer;
+		Mass_Needed : Integer := 0;
+		Additional_Mass_Needed : Integer := 0;
+		Intermediate_Mass : Integer := 0;
+		Total_Mass_Needed : Integer := 0;
+		package Int_IO is new Integer_IO(Integer); use Int_IO;
+	begin
+		Put_Line("CalculateFuelMass v2");
+		Open(Input_File, In_File, "day_1.txt");
+		while not End_Of_File(Input_File) loop
+			Int_IO.Get(Input_File, Mass);
+			Intermediate_Mass := Calculate_Fuel_Mass(Mass);
+			Mass_Needed := Mass_Needed + Intermediate_Mass;
+			Additional_Mass_Needed := Additional_Mass_Needed + Calculate_Fuel_Mass_Recursive(Intermediate_Mass);
+		end loop;
+		Put("Mass needed:");
+		Put_Line(Integer'Image(Mass_Needed));
+		Put("Additional mass needed:");
+		Put_Line(Integer'Image(Additional_Mass_Needed));
+		Total_Mass_Needed := Mass_Needed + Additional_Mass_Needed;
+		Put("Total mass needed:");
+		Put_Line(Integer'Image(Total_Mass_Needed));
+	end;
+end Day_1;

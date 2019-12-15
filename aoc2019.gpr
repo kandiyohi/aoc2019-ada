@@ -1,0 +1,8 @@
+project aoc2019 is
+	for Main use ("aoc2019");
+
+	package Fuel_Mass is
+		for Default_Switches ("Ada")
+			use ("-g");
+	end Fuel_Mass;
+end aoc2019;

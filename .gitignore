@@ -1,4 +1,11 @@
+# Vim files
 *.swp
+
+# Intermediate compiler generated files.
 *.o
 *.ali
-day_1
+b__*
+*.bexch
+
+# Compiler output.
+aoc2019
