@@ -77,7 +77,8 @@ begin
 	end loop;
 
 	if Input_File_Name = To_Unbounded_String("") then
-		Text_IO.Put_Line("No file name selected.");
+		Text_IO.Put_Line("ERROR: No file name selected.");
+		Text_IO.Put_Line("Please retry program and select a valid option.");
 		return 1;
 	end if;
 	Text_IO.Put_Line(To_String(Input_File_Name));
