@@ -21,6 +21,9 @@ function aoc2019 return Integer is
 	package Unbounded_String_List is new Ada.Containers.Doubly_Linked_Lists (Unbounded_String);
 	package Integer_IO is new Text_IO.Integer_IO (Integer);
 
+	type Procedure_To_Run_Type is access procedure(Input_File_Path: String);
+
+	Procedure_To_Run: Procedure_To_Run_Type;
 	Day_To_Run: Unbounded_String;
 	Input_File_Name: Unbounded_String := To_Unbounded_String("");
 	Search: Directories.Search_Type;
@@ -36,6 +39,14 @@ begin
 	Text_IO.Put("Specify day to solve: ");
 	Response := Unbounded_IO.Get_Line;
 	Day := Integer'Value(To_String(Response));
+	case Day is
+		when 1 =>
+			Procedure_To_Run := Day_1.Day_1'Access;
+		when others =>
+			Text_IO.Put("ERROR: Day is not implemented.");
+			return 1;
+	end case;
+
 	Directories.Start_Search(Search, To_String(Input_Directory), "*.txt");
 	while Directories.More_Entries(Search) loop
 		Directories.Get_Next_Entry(Search, Directory_Entry);
@@ -71,12 +82,6 @@ begin
 	Text_IO.Put_Line(To_String(Input_File_Name));
 	--Text_IO.Put_Line("Which day to run? ");
 	--Day_To_Run := Unbounded_IO.Get_Line;
-	case Day is
-		when 1 =>
-			Day_1.Day_1(To_String(Input_File_Name));
-		when others =>
-			Text_IO.Put_Line("ERROR: Day does not have entry.");
-			return 1;
-	end case;
+	Procedure_To_Run.all(To_String(Input_File_Name));
 	return 0;
 end;
