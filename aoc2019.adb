@@ -11,6 +11,9 @@ with Day_1;
 
 with Ada.Containers.Doubly_Linked_Lists;
 
+with Get_Integer_Input;
+use Get_Integer_Input;
+
 function aoc2019 return Integer is
 	-- It's important to distinguish between Text_IO and Unbounded_IO.  For
 	-- printing, Text_IO is easier to user, but for input, Unbounded_IO is far
@@ -36,9 +39,7 @@ function aoc2019 return Integer is
 	Input_Directory: Unbounded_String := To_Unbounded_String("inputs/");
 	Day: Integer;
 begin
-	Text_IO.Put("Specify day to solve: ");
-	Response := Unbounded_IO.Get_Line;
-	Day := Integer'Value(To_String(Response));
+	Day := Get_Integer("Specify which day to solve: ");
 	case Day is
 		when 1 =>
 			Procedure_To_Run := Day_1.Day_1'Access;
