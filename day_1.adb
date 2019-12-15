@@ -44,7 +44,7 @@ use Fuel_Mass;
 
 package body Day_1 is
 
-	procedure Day_1 is
+	procedure Day_1(Input_File_Name: String) is
 		Input_File : File_Type;
 		Mass : Integer;
 		Mass_Needed : Integer := 0;
@@ -54,7 +54,8 @@ package body Day_1 is
 		package Int_IO is new Integer_IO(Integer); use Int_IO;
 	begin
 		Put_Line("CalculateFuelMass v2");
-		Open(Input_File, In_File, "day_1.txt");
+		--Open(Input_File, In_File, "day_1.txt");
+		Open(Input_File, In_File, Input_File_Name);
 		while not End_Of_File(Input_File) loop
 			Int_IO.Get(Input_File, Mass);
 			Intermediate_Mass := Calculate_Fuel_Mass(Mass);
