@@ -5,6 +5,9 @@ use Ada.Strings;
 with Ada.Strings.Fixed;
 use Ada.Strings.Fixed;
 
+with Fuel_Mass;
+use Fuel_Mass;
+
 -- --- Day 1: The Tyranny of the Rocket Equation ---
 -- 
 -- Santa has become stranded at the edge of the Solar System while delivering
@@ -48,20 +51,13 @@ procedure Day_1 is
 	Total_Mass_Needed : Integer := 0;
 	package Int_IO is new Integer_IO(Integer); use Int_IO;
 begin
+	Put_Line("CalculateFuelMass v2");
 	Open(Input_File, In_File, "day_1.txt");
 	while not End_Of_File(Input_File) loop
 		Int_IO.Get(Input_File, Mass);
-		Intermediate_Mass := Mass / 3 - 2;
-		if Intermediate_Mass <= 0 then
-			goto Continue;
-		end if;
+		Intermediate_Mass := Calculate_Fuel_Mass(Mass);
 		Mass_Needed := Mass_Needed + Intermediate_Mass;
-		loop
-			Intermediate_Mass := Intermediate_Mass / 3 - 2;
-			exit when Intermediate_Mass <= 0;
-			Additional_Mass_Needed := Additional_Mass_Needed + Intermediate_Mass;
-		end loop;
-		<<Continue>>
+		Additional_Mass_Needed := Additional_Mass_Needed + Calculate_Fuel_Mass_Recursive(Intermediate_Mass);
 	end loop;
 	Put("Mass needed:");
 	Put_Line(Integer'Image(Mass_Needed));

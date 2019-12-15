@@ -11,6 +11,9 @@ all: day_1
 day_1: day_1.adb
 	$(GNAT) make day_1.adb
 
+clean:
+	$(GNAT) clean day_1
+
 test-env:
 	@echo "GNAT_PATH: $(GNAT_PATH)"
 	@echo "PATH: $(PATH)"
