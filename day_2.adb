@@ -40,40 +40,54 @@ package body Day_2 is
 	end Read_Opcodes;
 
 	procedure Add(Opcodes: in out Vector; Input_Index_1, Input_Index_2, Output_Index: Integer) is
-		Input_Value_1: Integer := Opcodes(Input_Index_1);
-		Input_Value_2: Integer := Opcodes(Input_Index_2);
+		Input_Value_1: Integer;
+		Input_Value_2: Integer;
 		Output_Value: Integer;
+		Lowest_Index: Integer := Integer'Min(Input_Index_1, Input_Index_2);
+		Highest_Index: Integer := Integer'Max(Input_Index_1, Input_Index_2);
 	begin
+		if Lowest_Index < First_Index(Opcodes) or Highest_Index > Last_Index(Opcodes) then
+			return;
+		end if;
+		Input_Value_1 := Opcodes(Input_Index_1);
+		Input_Value_2 := Opcodes(Input_Index_2);
 		Output_Value := Input_Value_1 + Input_Value_2;
 		Replace_Element(Opcodes, Output_Index, Output_Value);
 	end Add;
 
 	procedure Multiply(Opcodes: in out Vector; Input_Index_1, Input_Index_2, Output_Index: Integer) is
-		Input_Value_1: Integer := Opcodes(Input_Index_1);
-		Input_Value_2: Integer := Opcodes(Input_Index_2);
+		Input_Value_1: Integer;
+		Input_Value_2: Integer;
 		Output_Value: Integer;
+		Lowest_Index: Integer := Integer'Min(Input_Index_1, Input_Index_2);
+		Highest_Index: Integer := Integer'Max(Input_Index_1, Input_Index_2);
 	begin
+		if Lowest_Index < First_Index(Opcodes) or Highest_Index > Last_Index(Opcodes) then
+			return;
+		end if;
+		Input_Value_1 := Opcodes(Input_Index_1);
+		Input_Value_2 := Opcodes(Input_Index_2);
 		Output_Value := Input_Value_1 * Input_Value_2;
 		Replace_Element(Opcodes, Output_Index, Output_Value);
 	end Multiply;
 
 	function Parse_Opcodes(Opcodes: Vector) return Vector is
 		Modified_Opcodes: Vector := Copy(Opcodes);
-		Opcode, Input_Term_1, Input_Term_2, Output_Term: Integer;
+		Opcode, Input_Index_1, Input_Index_2, Output_Index: Integer;
 	begin
 		for Index in First_Index(Modified_Opcodes)..Last_Index(Modified_Opcodes) loop
 			if Index mod 4 /= 0 then
 				goto Continue;
 			end if;
 			Opcode := Modified_Opcodes(Index);
-			Input_Term_1 := Modified_Opcodes(Index+1);
-			Input_Term_2 := Modified_Opcodes(Index+2);
-			Output_Term := Modified_Opcodes(Index+3);
+			Input_Index_1 := Modified_Opcodes(Index+1);
+			Input_Index_2 := Modified_Opcodes(Index+2);
+			Output_Index := Modified_Opcodes(Index+3);
 			case Opcode is
 				when 1 =>
-					Add(Modified_Opcodes, Input_Term_1, Input_Term_2, Output_Term);
+					Add(Modified_Opcodes, Input_Index_1, Input_Index_2, Output_Index);
 				when 2 =>
-					Multiply(Modified_Opcodes, Input_Term_1, Input_Term_2, Output_Term);
+					Multiply(Modified_Opcodes, Input_Index_1, Input_Index_2, Output_Index);
 				when 99 =>
 					return Modified_Opcodes;
 				when others =>
@@ -90,15 +104,51 @@ package body Day_2 is
 		Opcodes(2) := Input_2;
 	end Reset_State;
 
+	procedure Put_Opcodes(Opcodes: Vector) is
+		Count: Integer;
+	begin
+		Count := 0;
+		Int_IO.Put(Count);
+		Put("  --");
+		for Opcode of Opcodes loop
+			Count := Count + 1;
+			Int_IO.Put(Standard_Output, Opcode);
+			if Count mod 4 = 0 then
+				New_Line;
+				Int_IO.Put(Count);
+				Put("  --");
+			end if;
+		end loop;
+		New_Line;
+		New_Line;
+	end;
+
 	procedure Day_2(Input_file_Name: String) is
 		Opcodes: Vector := Read_Opcodes(Input_File_Name);
 		Modified_Opcodes: Vector;
 		Program_Output: Integer;
+		Input: Integer;
 	begin
 		-- Reset the 12 02 alarm state.
 		Reset_State(Opcodes, 12, 2);
+		--Put_Opcodes(Opcodes);
 		Modified_Opcodes := Parse_Opcodes(Opcodes);
+		--Put_Opcodes(Modified_Opcodes);
 		Program_Output := Modified_Opcodes(0);
 		Put_Line("First position output: " & Integer'Image(Program_Output));
+
+		for Input_1 in Integer range 1..255 loop
+			for Input_2 in Integer range 1..255 loop
+				null;
+				Reset_State(Opcodes, Input_1, Input_2);
+				Modified_Opcodes := Parse_Opcodes(Opcodes);
+				Program_Output := Modified_Opcodes(0);
+				if Program_Output = 19690720 then
+					Input := Modified_Opcodes(1)*100 + Modified_Opcodes(2);
+					Put_Line("Output 19690720 is given by input " & Integer'Image(Input));
+					exit;
+				end if;
+			end loop;
+		end loop;
 	end Day_2;
 end Day_2;
