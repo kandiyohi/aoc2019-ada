@@ -1,3 +1,17 @@
 project aoc2019 is
+	-- This allows stack traces on unhandled exceptions:
+	--gnat make -g aoc2019.adb -bargs -E -largs -lintl
+	package Compiler is
+		for Default_Switches ("Ada")
+			use ("-g");
+	end Compiler;
+	package Binder is
+		for Default_Switches ("Ada")
+			use ("-E");
+	end Binder;
+	package Linker is
+		for Default_Switches ("Ada")
+			use ("-lintl");
+	end Linker;
 	for Main use ("aoc2019");
 end aoc2019;
