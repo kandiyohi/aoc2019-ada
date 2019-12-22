@@ -1,0 +1,54 @@
+====== Day 3 specification ======
+
+A valid wire run input file shall follow the following syntax rules:
+
+    - magnitude_sets := magnitude_set new_line {magnitude_sets}
+    - magnitude_set := magnitude_element {"," magnitude_element}
+    - new_line := [CR] LF
+    - magnitude_element := direction_character magnitude
+    - direction_character := "U" | "D" | "L" | "R"
+    - magnitude := digit {digit}
+    - digit := "0" | "1" | "2" | ... | "9"
+
+No space shall be allowed between elements unless otherwise specified.
+
+Results output is considered output to answer the question of the
+minimum Manhattan distance that two or more wire sets intersect at given
+an input file representation of the wire run directions.
+
+The program shall parse an input file, rejecting invalid input files at
+runtime.  The program may reject an invalid input file during
+intermediate processing, however no results output shall be produced for
+an invalid input file.
+
+The program shall parse the digits assuming base 10.
+
+The program shall parse a valid input file into a number of sets equal
+to the number of lines in the file.
+
+The program shall assume the file has a new line at the end of the last
+line of a file (conforming to the standard unix specification that there
+is a new line at the end of a file).
+
+The program shall output the distance 0 if there is only 1 wire set.
+
+The program shall output the distance of the closest interesection of all sets
+if there is more than 1 wire set.
+
+The program shall output the distance "inf" as the closest intersection if
+there is no intersections between more than 1 wire set.
+
+Upon reading a magnitude_element token, the program shall add to a set
+of coordinates by the following rules:
+
+    1. The current coordinates are to be X and Y.  If formatting for
+       human-readable purposes, they shall be printed as (X,Y).
+    2. The magnitude shall be represented by M.
+    3. If the direction_character is "L" or "D", the magnitude shall be
+       negated (M := -M).
+    4. If the direction_character is "L" or "R", each coordinate between
+       (X,Y) and (X+M,Y), not including the (X,Y) coordinate, shall be
+       added to the wire set.
+    5. If the direction_character is "U" or "D", each coordinate between
+       (X,Y) and (X,Y+M), not including the (X,Y) coordinate, shall be
+       added to the wire set.

@@ -12,6 +12,7 @@ use Get_Input_File;
 
 with Day_1;
 with Day_2;
+with Day_3;
 
 function aoc2019 return Integer is
 	package Text_IO renames Ada.Text_IO;
@@ -33,6 +34,9 @@ begin
 		when 2 =>
 			Procedure_To_Run := Day_2.Day_2'Access;
 			Input_File_Pattern := To_Unbounded_String("day_2*.txt");
+		when 3 =>
+			Procedure_To_Run := Day_3.Day_3'Access;
+			Input_File_Pattern := To_Unbounded_String("day_3*.txt");
 		when others =>
 			Text_IO.Put("ERROR: Day is not implemented.");
 			return 1;
